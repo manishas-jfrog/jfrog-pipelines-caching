@@ -1,14 +1,26 @@
+resources:
+  - name: repo_1_pipelines_caching
+    type: GitRepo
+    configuration:
+      gitProvider: manishas_github   # replace with your integration
+      path: manishas-jfrog/jfrog-pipelines-caching    # replace with your repository name
+      branches:
+        include: master
 
 pipelines:
   - name: pipeline_caching
     steps:
-      - name: step_1_pipeline_caching
+      - name: step_1_pipelines_caching
         type: Bash
+        configuration:
+          inputResources:
+            - name: repo_1_pipelines_caching
         execution:
           onExecution:
-            - restore_cache_files npm_cache $step_workspace_dir/node_modules
-            - ls $step_workspace_dir/node_modules
+            - pushd $res_repo_1_pipelines_caching_resourcePath
+            - restore_cache_files npm_cache $res_repo_1_pipelines_caching_resourcePath/node_modules
+            - ls $res_repo_1_pipelines_caching_resourcePath/node_modules
             - npm install
-            - ls $step_workspace_dir/node_modules            
+            - ls $res_repo_1_pipelines_caching_resourcePath/node_modules
           onComplete:
-            - add_cache_files $step_workspace_dir/node_modules npm_cache
+            - add_cache_files $res_repo_1_pipelines_caching_resourcePath/node_modules npm_cache
