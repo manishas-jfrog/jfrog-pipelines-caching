@@ -19,7 +19,6 @@ pipelines:
           onExecute:
             - cd $res_repo_1_pipelines_caching_resourcePath
             - restore_cache_files npm_cache $res_repo_1_pipelines_caching_resourcePath/node_modules
-            - ls $res_repo_1_pipelines_caching_resourcePath/node_modules
             - npm install
             - ls $res_repo_1_pipelines_caching_resourcePath/node_modules
           onComplete:
