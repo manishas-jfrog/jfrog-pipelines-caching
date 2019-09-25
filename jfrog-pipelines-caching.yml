@@ -1,0 +1,14 @@
+
+pipelines:
+  - name: pipeline_caching
+    steps:
+      - name: step_1_pipeline_caching
+        type: Bash
+        execution:
+          onExecution:
+            - restore_cache_files npm_cache $step_workspace_dir/node_modules
+            - ls $step_workspace_dir/node_modules
+            - npm install
+            - ls $step_workspace_dir/node_modules            
+          onComplete:
+            - add_cache_files $step_workspace_dir/node_modules npm_cache
